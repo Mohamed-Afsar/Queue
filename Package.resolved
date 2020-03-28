@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "DoublyLinkedList",
+        "repositoryURL": "https://github.com/Mohamed-Afsar/DoublyLinkedList.git",
+        "state": {
+          "branch": null,
+          "revision": "c23ee0ba362962745b8aa9afcf909950b830913c",
+          "version": "1.0.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
