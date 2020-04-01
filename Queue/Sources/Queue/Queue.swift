@@ -8,12 +8,15 @@
 
 import DoublyLinkedList
 
-open class Queue<T: Equatable>: Queueable, ExpressibleByArrayLiteral {
+open class Queue<T: Equatable>: Queueable, ExpressibleByArrayLiteral, CustomStringConvertible {
     // MARK: Public IVars
-    public var first: T? { return self.list.first }
-    public var last: T? { return self.list.last }
-    public var count: Int { return self.list.count }
-    public var isEmpty: Bool { return self.list.isEmpty }
+    open var first: T? { self._first }
+    open var last: T? { self._last }
+    open var count: Int { self._count }
+    open var isEmpty: Bool { self._isEmpty }
+    
+    // CustomStringConvertible
+    open var description: String { self._description }
     
     // MARK: Private IVars
     private let list = DoublyLinkedList<T>()
@@ -21,29 +24,63 @@ open class Queue<T: Equatable>: Queueable, ExpressibleByArrayLiteral {
     // MARK: Initialization
     required public convenience init(arrayLiteral elements: T...) {
         self.init()
-        self.list.append(elements)
+        self._enqueue(elements)
     }
     
     public convenience init(_ element: T) {
         self.init()
-        self.list.append(element)
+        self._enqueue(element)
     }
     
     public convenience init(_ elements: [T]) {
         self.init()
-        self.list.append(elements)
+        self._enqueue(elements)
     }
 
     // MARK: Open Manipulating Functions
     open func enqueue(_ element: T) {
-        self.list.append(element)
+        self._enqueue(element)
     }
     
     open func enqueue(_ elements: [T]) {
-        self.list.append(elements)
+        self._enqueue(elements)
     }
     
     open func dequeue() -> T? {
+        return self._dequeue()
+    }
+    
+    open func dequeue(_ element: T) {
+        self._dequeue(element)
+    }
+    
+    // MARK: Open Reading Functions
+    open func peek() -> T? {
+        self._peek()
+    }
+}
+
+// MARK: Helper Functions
+private extension Queue {
+    // MARK: IVars
+    var _first: T? { self.list.first }
+    var _last: T? { self.list.last }
+    var _count: Int { self.list.count }
+    var _isEmpty: Bool { self.list.isEmpty }
+    
+    // CustomStringConvertible
+    var _description: String { self.list.description }
+    
+    // MARK: Open Manipulating Functions
+    func _enqueue(_ element: T) {
+        self.list.append(element)
+    }
+    
+    func _enqueue(_ elements: [T]) {
+        self.list.append(elements)
+    }
+    
+    func _dequeue() -> T? {
         guard let element = self.list.first else {
             return nil
         }
@@ -51,18 +88,12 @@ open class Queue<T: Equatable>: Queueable, ExpressibleByArrayLiteral {
         return element
     }
     
-    open func dequeue(_ element: T) -> Bool {
-        return self.list.remove(element)
+    func _dequeue(_ element: T) {
+        self.list.remove(element)
     }
     
     // MARK: Open Reading Functions
-    open func peek() -> T? {
-        return self.list.first
-    }
-}
-
-extension Queue: CustomStringConvertible {
-    public var description: String {
-        return self.list.description
+    func _peek() -> T? {
+        self.list.first
     }
 }

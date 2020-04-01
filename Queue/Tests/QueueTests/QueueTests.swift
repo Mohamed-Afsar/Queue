@@ -35,8 +35,8 @@ final class QueueTests: XCTestCase {
         // Dequeue
         XCTAssertEqual(queue2.dequeue(), one)
         XCTAssertEqual(queue2.count, 5)
-        XCTAssertEqual(queue2.dequeue(three), true)
-        XCTAssertEqual(queue2.dequeue("unknown"), false)
+        queue2.dequeue(three)
+        queue2.dequeue("unknown")
         
         // Peek
         XCTAssertEqual(queue2.peek(), two)
